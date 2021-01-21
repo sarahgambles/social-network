@@ -13,8 +13,6 @@ app.use(routes);
 
 db.once('open', () => {
     app.listen(PORT, () => {
-        console.log(`API server running on port ${PORT}!`);
+        console.log(`🌍 Connected on localhost:${PORT}!`);
     });
 });
-
-app.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`));
