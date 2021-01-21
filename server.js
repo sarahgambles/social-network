@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const routes = require('./routes');
 const db = require('./config/connection');
 

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/sarahgambles/social-network#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.11.4"
+    "mongoose": "^5.11.4",
+    "node": "^15.4.0"
   }
 }
