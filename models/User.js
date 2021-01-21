@@ -1,19 +1,19 @@
 const { Schema, model } = require('mongoose');
 
-const dateFormat = require('../utils/dateFormat');
-
 const UserSchema = new Schema(
     {
     userName: {
         type: String,
         required: true,
+        unique: true,
         trim: true
     },
 
     email: {
         type: String,
         required: true,
-
+        unique: true,
+        match: [/.+@.+\..+/, 'Must match an email address!'],
     },
     thoughts: [
         {
@@ -31,14 +31,14 @@ const UserSchema = new Schema(
 {
     toJSON: {
         virtuals: true,
-        getters: true
+    },
+        id: false,
     }
-}
 );
 
 
 
-UserSchema.virtual('friendCount').get(function() {
+userSchema.virtual('friendCount').get(function() {
     return this.friends.reduce((total, friends) => total + friends.replies.length + 1, 0);
 });
 

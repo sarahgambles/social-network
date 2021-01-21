@@ -1,12 +1,14 @@
-const { Schema, model, Types } = require('mongoose');
-const reactionSchema = require('./reactionSchema');
+const { Schema, model } = require('mongoose');
+const reactionSchema = require('./Reaction');
 const dateFormat = require('../utils/dateFormat');
 
 const ThoughtSchema = new Schema(
     {
         thoughtText: {
             type: String,
-            required: 'Must be between 1 and 280 characters'
+            required: 'Must be between 1 and 280 characters',
+            minlength: 1,
+            maxlength: 280
         },
         createdAt: {
             type: Date,
