@@ -72,28 +72,38 @@ const thoughtController = {
 
     // update thought by its _id
     updateThought({ params, body }, res) {
-        Thought.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
-        .then(dbThoughtData => {
+        Thought.findOneAndUpdate({ _id: params.id }, 
+          { $set: req.body },
+          { runValidators: true, new: true })
+        .then((dbThoughtData) => {
             if(!dbThoughtData) {
-                res.status(404).json({ message: 'No thought found with this id!' })
-                return;
+                return res.status(404).json({ message: 'No thought found with this id!' });
             }
             res.json(dbThoughtData);
         })
-        .catch(err => res.status(400).json(err));
+        .catch((err) => res.status(400).json(err));
     },
 
     // delete though by its _id
-    deleteThought({ params }, res) {
-        Thought.findOneAndDelete({ _id: params.id })
-        .then(dbThoughtData => {
-            if(!dbThoughtData) {
-                res.status(404).json({ message: 'No thought found with this id!' })
-                return;
+    deleteThought(req, res) {
+        Thought.findOneAndDelete({ _id: req.params.thougthId })
+        .then((dbThoughtData) => {
+            if (!dbThoughtData) {
+                return res.status(404).json({ message: 'No thought found with this id!' });
             }
-            res.json(dbThoughtData);
+            
+            return User.findeOneAndUpdate(
+              { thoughts: req.params.thoughtId },
+              { $pull: { thoughts: req.params.thoughtId } },
+              { new: true }
+            );
+        }).then((dbUserData) => {
+          if (!dbUserData) {
+            return res.status(404).json({ message: 'Thought created but no user found with this id.' });
+          }
+          res.json({ message: 'Thought deleted!' });
         })
-        .catch(err => res.status(400).json(err));
+        .catch((err) => res.status(400).json(err));
     },
 
     addReaction(req, res) {
